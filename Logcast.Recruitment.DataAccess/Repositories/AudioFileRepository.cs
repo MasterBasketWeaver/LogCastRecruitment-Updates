@@ -55,6 +55,10 @@ namespace Logcast.Recruitment.DataAccess.Repositories
                 string serverFileName = Path.Combine(GetAudioFileDirectory(), string.Concat(Guid.NewGuid().ToString(), audioFileName));
                 try
                 {
+                    var audioStreamFile = File.Create(serverFileName);
+                    audioStream.Seek(0, SeekOrigin.Begin);
+                    audioStream.CopyTo(audioStreamFile);
+                    audioStreamFile.Close();
                     var tfile = TagLib.File.Create(audioFileName);
                     var audioData = new AudioData(){
                         Name = audioFileName,
